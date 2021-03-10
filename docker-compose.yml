@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    container_name: file-server
+    command: npm run dev
+    restart: unless-stopped
+    ports:
+    - 3001:3001
+    environment:
+      - PORT=3001
+      - MONGO_URL=mongodb://api_db:27017/api
+    depends_on:
+      - api_db
+    networks:
+      - file-server-network
+
+  api_db:
+    image: mongo:latest
+    container_name: file-server-db
+    volumes:
+      - api_db:/data/db
+    networks:
+      - file-server-network
+
+volumes:
+  api_db:
+
+networks:
+  file-server-network:
+    driver: bridge
+

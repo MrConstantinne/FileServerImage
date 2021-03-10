@@ -1,20 +1,11 @@
 import app from './app';
-import dotenv from 'dotenv';
 
-import { startConnectionDB } from './database';
+import { connectionDB } from './mongodb';
 
-dotenv.config();
+const PORT = process.env.PORT;
 
-const main = async () => {
+connectionDB();
 
-    const PORT = process.env.PORT
-
-    await Promise.all([
-        startConnectionDB(),
-        app.listen(PORT, () => {
-            console.info(`Сервер: ${ PORT }` )
-        })
-    ]);
-};
-
-main();
+app.listen(PORT, () => {
+    console.info(`The server is running on the port: ${ PORT }` );
+});

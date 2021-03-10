@@ -1,16 +1,16 @@
 import { connect } from 'mongoose';
 
-export const startConnectionDB = async () => {
+export const connectionDB = async () => {
     try {
         await connect(
-            `${process.env.MONGO_DB_URIS}`,
+            `${ process.env.MONGO_URL }`,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useFindAndModify: false,
             });
-        console.info('БД - ок');
+        console.info('Connection to the database is established');
     } catch {
-        console.error('Подключение к БД невозможно')
+        console.error('Connection to the database is not possible');
     }
 };
