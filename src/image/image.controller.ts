@@ -5,13 +5,13 @@ import multer from '../libs/multer';
 
 const router = Router();
 
-router.route('/images')
-    .get(getImages)
-
 router.route('/image/:id')
     .get(getImage)
-    .post(multer.single('image'), createImage)
     .put(updateImage)
     .delete(deleteImage)
+
+router.route('/images')
+  .get(getImages)
+  .post(multer.single('image'), createImage)
 
 export default router;

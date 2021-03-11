@@ -1,12 +1,14 @@
 import express, { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 import morgan from 'morgan';
 import path from 'path';
+import fs from 'fs';
 
 import routes from './image/image.controller';
 
 const app = express();
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
-app.use(morgan('dev'));
+app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.json());
 
 app.use('/api', routes);
