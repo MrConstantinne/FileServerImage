@@ -6,9 +6,9 @@ import multer from '../libs/multer';
 const router = Router();
 
 router.route('/image/:id')
-    .get(getImage)
-    .put(updateImage)
-    .delete(deleteImage)
+  .get(getImage)
+  .put(updateImage)
+  .delete(deleteImage)
 
 router.route('/images')
   .get(getImages)

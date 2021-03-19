@@ -2,7 +2,7 @@ import app from './app';
 
 import { connectionDB } from './mongodb';
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 connectionDB();
 

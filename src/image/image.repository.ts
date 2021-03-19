@@ -9,8 +9,8 @@ export const getAllImages = async (): Promise<ImageInterface[] | null> => {
   return Image.find();
 }
 
-export const createOneImage = async (...args: ImageInterface[]): Promise<ImageInterface> => {
-  return new Image(...args).save();
+export const createOneImage = async (...args: string[]): Promise<ImageInterface> => {
+  return new Image({ ...args }).save();
 }
 
 export const deleteImageById = async (id: string) => {
