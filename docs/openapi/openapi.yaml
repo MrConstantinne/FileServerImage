@@ -1,0 +1,208 @@
+openapi: 3.0.3
+
+info:
+  title: File server
+  contact:
+    name: Support
+    email: example@google.com
+  version: 1.0.1
+  x-logo:
+    url: "https://www.airht.info/wp/wp-content/uploads/2019/03/gh.jpg"
+    backgroundColor: "#FAFAFA"
+    altText: "Company logo"
+
+servers:
+  - url: "http://localhost:3000"
+    description: Development server
+
+paths:
+  /api/images:
+    get:
+      summary: GetImages
+      description: Returns data for all files
+      responses:
+        '200':
+          description: Data for all files returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetAllImages'
+        '400':
+          description: Image not found
+        '500':
+          description: An exceptional error occurred
+
+    post:
+      summary: PostImage
+      description: Writes the file to the storage and returns the data
+      requestBody:
+        content:
+          'image/jpeg':
+            schema:
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+          'image/png':
+            schema:
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+
+      responses:
+        '200':
+          description: File created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Image saved successfully
+                  image:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        example: Family photo
+                      description:
+                        type: string
+                        example: 8 May 2020
+                      imagePath:
+                        type: string
+                        example: /uploads 1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed.png
+        '500':
+          description: An exceptional error occurred
+
+  /api/image/{id}:
+    parameters:
+      - name: id
+        in: query
+        description: ID of the image to fetch
+        required: true
+        schema:
+          type: string
+        style: form
+        explode: true
+    get:
+      summary: "GetImage"
+      description: "Returns data on the file"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        example: Family photo
+                      description:
+                        type: string
+                        example: 8 May 2020
+                      imagePath:
+                        type: string
+                        example: /uploads 1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed.png
+        '400':
+          description: Image not found
+        '500':
+          description: An exceptional error occurred
+    put:
+      summary: "PutImage"
+      description: "Changes the file by ID"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  massage:
+                    type: string
+                    example: Image updated
+                  data:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        example: Family photo
+                      description:
+                        type: string
+                        example: 8 May 2020
+                      imagePath:
+                        type: string
+                        example: /uploads 1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed.png
+        '400':
+          description: Image not found
+        '500':
+          description: An exceptional error occurred
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  type: string
+                  example: Family photo
+                description:
+                  type: string
+                  example: 8 May 2020
+
+    delete:
+      summary: "DeleteImage"
+      description: "Deletes a file by ID"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  massage:
+                    type: string
+                    example: Image deleted
+        '400':
+          description: Image not found
+        '500':
+          description: An exceptional error occurred
+components:
+  schemas:
+    GetAllImages:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            title:
+              type: string
+              example: Family photo
+            description:
+              type: string
+              example: 8 May 2020
+            imagePath:
+              type: string
+              example: /uploads 1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed.png
+
+security:
+
+tags:
+
+externalDocs:
