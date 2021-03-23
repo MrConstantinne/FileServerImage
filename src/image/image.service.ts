@@ -8,7 +8,7 @@ export const getImage = async (req: Request, res: Response): Promise<Response> =
     const { id } = req.params;
     const image = await getImageById(id);
     if (!image) {
-        return res.status(400).json({ message: 'Image not found' });
+        return res.status(404).json({ message: 'Image not found' });
     }
     return res.json({ image });
 };
@@ -16,7 +16,7 @@ export const getImage = async (req: Request, res: Response): Promise<Response> =
 export const getImages = async (req: Request, res: Response): Promise<Response> => {
     const images = await getAllImages();
     if (!images) {
-        return res.status(400).json({ message: 'Images not found' });
+        return res.status(404).json({ message: 'Images not found' });
     }
     return res.json({ images });
 };
@@ -36,7 +36,7 @@ export const updateImage = async (req: Request, res: Response): Promise<Response
     const { title, description } = req.body;
     const image = await getImageById(id);
     if (!image) {
-        return res.status(400).json({ message: 'Image not found' });
+        return res.status(404).json({ message: 'Image not found' });
     }
     const updatedImage = await updateImageById(id, title, description);
     return res.json({
@@ -49,7 +49,7 @@ export const deleteImage = async (req: Request, res: Response) => {
     const { id } = req.params;
     const image = await getImageById(id);
     if (!image) {
-        return res.status(400).json({ message: 'Image not found' });
+        return res.status(404).json({ message: 'Image not found' });
     }
     await deleteImageById(id);
     await unlink(path.resolve(image.imagePath));

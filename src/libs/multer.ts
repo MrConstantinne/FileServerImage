@@ -3,6 +3,11 @@ import multer from 'multer';
 import path from 'path';
 import { v4 } from 'uuid';
 
+interface FileFilterCallback {
+    (error: Error): void;
+    (error: null, acceptFile: boolean): void;
+}
+
 const storage = multer.diskStorage({
     destination: 'uploads',
     filename(req: Request,
@@ -15,7 +20,8 @@ const storage = multer.diskStorage({
 const fileFilter = (
   req: Request,
   file: Express.Multer.File,
-  callback: (error: null, filename: boolean) => void) => {
+  callback: FileFilterCallback,
+): void => {
     if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
         callback(null, true);
     } else {
@@ -26,7 +32,6 @@ const fileFilter = (
 const limits = {
     fileSize: 1024 * 1024 * 5
 }
-
 
 export default multer({
     storage,
